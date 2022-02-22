@@ -7,7 +7,7 @@ from urllib.request import urlopen
 
 from PySide6.QtCharts import (QChart, QChartView,
                               QLineSeries, QBarSet, QStackedBarSeries)
-from PySide6.QtGui import QAction, QPainter
+from PySide6.QtGui import QAction, QPainter, QIcon
 from PySide6.QtWidgets import (
     QApplication,
     QLabel,
@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
     QListWidget, QToolBar, QCheckBox, QStatusBar
 
 )
+
 
 pueblos = "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=abebb88b-5867-42e3-a2f1-1202f3eda515&limit=542"
 
@@ -42,6 +43,7 @@ class AnotherWindow(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon('descarga.png'))
         self.setWindowTitle("Login")
         layout = QVBoxLayout()
         self.main = None
@@ -76,7 +78,7 @@ class AnotherWindow(QWidget):
 
         if result:
             self.error.setText("Credencials correctes")
-            self.error.setStyleSheet("QLabel { color : red; }")
+            self.error.setStyleSheet("QLabel { color : green; }")
             print("Correct")
             self.main = MainWindow()
             self.main.show()
@@ -89,8 +91,9 @@ class AnotherWindow(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon('descarga.png'))
 
-        self.resize(700, 400)
+        self.resize(1400, 700)
         self.setWindowTitle("Aplicación COVID")
 
         # Layout General
@@ -237,7 +240,7 @@ class MainWindow(QMainWindow):
         self.text_infectados.setStyleSheet("font: 15px; color: black")
         self.text_vacunados = QLabel("")
         self.text_vacunados.setStyleSheet("font: 15px; color: black")
-        self.text_bv = QLabel("Bienvenido")
+        self.text_bv = QLabel("")
         self.text_bv.setStyleSheet("font: 15px; color: black")
         self.text_morts = QLabel("")
         self.text_morts.setStyleSheet("font: 15px; color: black")
@@ -249,14 +252,11 @@ class MainWindow(QMainWindow):
         self.layout_test.addWidget(self.text_bv)
         self.layout_test.addWidget(self.text_morts)
         self.layout_test.addWidget(self.text_hosp)
+        self.statusBar()
 
         layout_especifico.addLayout(self.layout_test)
         layout_especifico.addLayout(layout_list_totales)
-        self.setStatusBar(QStatusBar(self))
 
-        self.setStatusBar(QStatusBar(self))
-        self.mode = QLabel("Modo: Por comunidades")
-        self.statusBar().addPermanentWidget(self.mode)
 
         self.grafico_barras_init()
 
@@ -321,7 +321,6 @@ class MainWindow(QMainWindow):
         return municipis_alacant
 
     def rellena_grafico(self):
-        self.mode.setText("Modo: por municipios")
         url_04_01_2021 = urlopen(
             "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=c1f36903-bf2e-4a43-9cfd-5075b4a956c9&limit=542")
         url_28_01_2021 = urlopen(
@@ -348,43 +347,43 @@ class MainWindow(QMainWindow):
             "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=30d5e647-f5a6-4fd2-820c-b2819e4a6895&limit=542")
         url_30_12_2021 = urlopen(
             "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=14c5eb17-30cf-46e8-9564-7051a841c549&limit=542")
-        # url_03_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=abebb88b-5867-42e3-a2f1-1202f3eda515&limit=542")
-        # url_05_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=f4864e40-5268-459b-94fc-20318a7a246d&limit=542")
-        # url_10_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=bfb666e8-db73-44b4-94ad-0bb79814bfe3&limit=542")
-        # url_13_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ebe4297b-2e7c-451f-b41d-98a706fb5039&limit=542")
-        # url_17_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ea02cc70-a2f0-4f8f-8d49-151c42f19437&limit=542")
-        # url_20_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=9a00dd92-79b7-4f99-9355-c81764604a66&limit=542")
-        # url_27_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=4729ab91-1004-46af-9d49-a4a775638125&limit=542")
-        # url_31_01_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=5b53697f-4b2f-4e38-bffb-2786e2d04335&limit=542")
-        # url_03_02_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=6dd17811-a4ac-41ab-8043-11b75168a1c8&limit=542")
-        # url_07_02_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=fa7915b6-9df8-454d-96a9-c88d9c0be721&limit=542")
-        # url_10_02_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=847815c9-27ab-4dbd-b935-087425488ffd&limit=542")
-        # url_14_02_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7fd9a2bf-ffee-4604-907e-643a8009b04e&limit=542")
-        # url_17_02_2022 = urlopen(
-        #     "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7968883a-2329-4c26-8304-83f19ec54ab1&limit=542")
-        # urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
-        #         url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
-        #         url_30_12_2021,
-        #         url_03_01_2022, url_05_01_2022, url_10_01_2022, url_13_01_2022,
-        #         url_17_01_2022,
-        #         url_20_01_2022, url_27_01_2022, url_31_01_2022, url_03_02_2022,
-        #         url_07_02_2022, url_10_02_2022, url_14_02_2022, url_17_02_2022]
-
+        url_03_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=abebb88b-5867-42e3-a2f1-1202f3eda515&limit=542")
+        url_05_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=f4864e40-5268-459b-94fc-20318a7a246d&limit=542")
+        url_10_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=bfb666e8-db73-44b4-94ad-0bb79814bfe3&limit=542")
+        url_13_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ebe4297b-2e7c-451f-b41d-98a706fb5039&limit=542")
+        url_17_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ea02cc70-a2f0-4f8f-8d49-151c42f19437&limit=542")
+        url_20_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=9a00dd92-79b7-4f99-9355-c81764604a66&limit=542")
+        url_27_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=4729ab91-1004-46af-9d49-a4a775638125&limit=542")
+        url_31_01_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=5b53697f-4b2f-4e38-bffb-2786e2d04335&limit=542")
+        url_03_02_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=6dd17811-a4ac-41ab-8043-11b75168a1c8&limit=542")
+        url_07_02_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=fa7915b6-9df8-454d-96a9-c88d9c0be721&limit=542")
+        url_10_02_2022 = urlopen(
+            "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=847815c9-27ab-4dbd-b935-087425488ffd&limit=542")
+        url_14_02_2022 = urlopen(
+            "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7fd9a2bf-ffee-4604-907e-643a8009b04e&limit=542")
+        url_17_02_2022 = urlopen(
+            "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7968883a-2329-4c26-8304-83f19ec54ab1&limit=542")
         urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
                 url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
-                url_30_12_2021]
+                url_30_12_2021,
+                url_03_01_2022, url_05_01_2022, url_10_01_2022, url_13_01_2022,
+                url_17_01_2022,
+                url_20_01_2022, url_27_01_2022, url_31_01_2022, url_03_02_2022,
+                url_07_02_2022, url_10_02_2022, url_14_02_2022, url_17_02_2022]
+
+        # urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
+        #         url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
+        #         url_30_12_2021]
         municipi = self.lista_municipios.currentItem().text()
 
         self.chart.removeAllSeries()
@@ -403,7 +402,6 @@ class MainWindow(QMainWindow):
         self.chart.legend().hide()
 
     def rellena_grafico_init(self):
-        self.mode.setText("Modo: por municipios")
         if not self.has_been_clicked:
             url_04_01_2021 = urlopen(
                 "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=c1f36903-bf2e-4a43-9cfd-5075b4a956c9&limit=542")
@@ -431,42 +429,42 @@ class MainWindow(QMainWindow):
                 "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=30d5e647-f5a6-4fd2-820c-b2819e4a6895&limit=542")
             url_30_12_2021 = urlopen(
                 "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=14c5eb17-30cf-46e8-9564-7051a841c549&limit=542")
-            # url_03_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=abebb88b-5867-42e3-a2f1-1202f3eda515&limit=542")
-            # url_05_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=f4864e40-5268-459b-94fc-20318a7a246d&limit=542")
-            # url_10_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=bfb666e8-db73-44b4-94ad-0bb79814bfe3&limit=542")
-            # url_13_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ebe4297b-2e7c-451f-b41d-98a706fb5039&limit=542")
-            # url_17_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ea02cc70-a2f0-4f8f-8d49-151c42f19437&limit=542")
-            # url_20_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=9a00dd92-79b7-4f99-9355-c81764604a66&limit=542")
-            # url_27_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=4729ab91-1004-46af-9d49-a4a775638125&limit=542")
-            # url_31_01_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=5b53697f-4b2f-4e38-bffb-2786e2d04335&limit=542")
-            # url_03_02_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=6dd17811-a4ac-41ab-8043-11b75168a1c8&limit=542")
-            # url_07_02_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=fa7915b6-9df8-454d-96a9-c88d9c0be721&limit=542")
-            # url_10_02_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=847815c9-27ab-4dbd-b935-087425488ffd&limit=542")
-            # url_14_02_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7fd9a2bf-ffee-4604-907e-643a8009b04e&limit=542")
-            # url_17_02_2022 = urlopen(
-            #     "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7968883a-2329-4c26-8304-83f19ec54ab1&limit=542")
-            # urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
-            #         url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
-            #         url_30_12_2021,
-            #         url_03_01_2022, url_05_01_2022, url_10_01_2022, url_13_01_2022,
-            #         url_17_01_2022,
-            #         url_20_01_2022, url_27_01_2022, url_31_01_2022, url_03_02_2022,
-            #         url_07_02_2022, url_10_02_2022, url_14_02_2022, url_17_02_2022]
+            url_03_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=abebb88b-5867-42e3-a2f1-1202f3eda515&limit=542")
+            url_05_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=f4864e40-5268-459b-94fc-20318a7a246d&limit=542")
+            url_10_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=bfb666e8-db73-44b4-94ad-0bb79814bfe3&limit=542")
+            url_13_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ebe4297b-2e7c-451f-b41d-98a706fb5039&limit=542")
+            url_17_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=ea02cc70-a2f0-4f8f-8d49-151c42f19437&limit=542")
+            url_20_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=9a00dd92-79b7-4f99-9355-c81764604a66&limit=542")
+            url_27_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=4729ab91-1004-46af-9d49-a4a775638125&limit=542")
+            url_31_01_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=5b53697f-4b2f-4e38-bffb-2786e2d04335&limit=542")
+            url_03_02_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=6dd17811-a4ac-41ab-8043-11b75168a1c8&limit=542")
+            url_07_02_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=fa7915b6-9df8-454d-96a9-c88d9c0be721&limit=542")
+            url_10_02_2022 = urlopen(
+                "https://dadesobertes.gva.es/api/3/action/datastore_search?resource_id=847815c9-27ab-4dbd-b935-087425488ffd&limit=542")
+            url_14_02_2022 = urlopen(
+                "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7fd9a2bf-ffee-4604-907e-643a8009b04e&limit=542")
+            url_17_02_2022 = urlopen(
+                "https://dadesobertes.gva.es/va/api/3/action/datastore_search?resource_id=7968883a-2329-4c26-8304-83f19ec54ab1&limit=542")
             urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
                     url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
-                    url_30_12_2021]
+                    url_30_12_2021,
+                    url_03_01_2022, url_05_01_2022, url_10_01_2022, url_13_01_2022,
+                    url_17_01_2022,
+                    url_20_01_2022, url_27_01_2022, url_31_01_2022, url_03_02_2022,
+                    url_07_02_2022, url_10_02_2022, url_14_02_2022, url_17_02_2022]
+            # urls = [url_04_01_2021, url_28_01_2021, url_25_02_2021, url_25_03_2021, url_29_04_2021, url_31_05_2021,
+            #         url_28_06_2021, url_29_07_2021, url_30_08_2021, url_30_09_2021, url_28_10_2021, url_25_11_2021,
+            #         url_30_12_2021]
 
             self.chart.removeAllSeries()
             series = QLineSeries()
@@ -487,7 +485,6 @@ class MainWindow(QMainWindow):
             self.rellena_grafico()
 
     def grafico_barras(self):
-        self.mode = QLabel("Modo: Por comunidades")
         self.chart.removeAllSeries()
         self.text_infectados.setText("")
         self.text_vacunados.setText("")
@@ -550,7 +547,6 @@ class MainWindow(QMainWindow):
         self.chart.setTitle("Total " + self.lista_ca.currentItem().text())
 
     def grafico_barras_init(self):
-        self.mode.setText("Modo: por comunidades")
         self.chart.removeAllSeries()
 
         infectados_barra = QBarSet("Infectados")
@@ -608,7 +604,6 @@ class MainWindow(QMainWindow):
         self.boton_mostrar.hide()
 
     def cambia_evo(self):
-        self.mode.setText("Modo: por municipios")
         self.rellena_grafico_init()
         self.infectados_chx.hide()
         self.vacunados_chx.hide()
