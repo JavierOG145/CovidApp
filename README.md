@@ -1,5 +1,6 @@
-#CovidApp
-#by: 	
-#Javier Orts García
-#Andres Murcia Sastre	
+## Covid App 
 
+by
+
+* Javier Orts García
+* Andres Murcia Sastre
