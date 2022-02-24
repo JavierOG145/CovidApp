@@ -48,7 +48,9 @@ class AnotherWindow(QWidget):
         layout = QVBoxLayout()
         self.main = None
         self.user = QLineEdit()
+        self.user.setPlaceholderText("user")
         self.password = QLineEdit()
+        self.password.setPlaceholderText("password")
         self.password.setEchoMode(QLineEdit.Password)
         self.aceptar_button = QPushButton("Aceptar")
         self.aceptar_button.clicked.connect(self.toggle_window)
@@ -130,6 +132,8 @@ class MainWindow(QMainWindow):
         self.boton_totales_cv = QAction("Datos por Comunidad Autónoma")
         self.boton_totales_cv.triggered.connect(self.cambia_barras)
         self.boton_totales_cv.setStatusTip("Por CA")
+        self.boton_totales_cv.setEnabled(False)
+        self.boton_totales_cv.triggered.connect(self.condicion_0)
 
         self.boton_evolucion_positivos = QAction("PCR+ totales")
         self.boton_evolucion_positivos.triggered.connect(self.condicion_1)
@@ -621,14 +625,47 @@ class MainWindow(QMainWindow):
         self.lista_municipios.show()
         self.boton_mostrar.show()
 
+    def condicion_0(self):
+        self.boton_totales_cv.setEnabled(False)
+
+        self.boton_evolucion_positivos.setEnabled(True)
+
+        self.boton_evolucion_positivos_14.setEnabled(True)
+
+        self.boton_evolucion_muertes.setEnabled(True)
+
     def condicion_1(self):
         self.condicion = "Casos PCR+"
+
+        self.boton_totales_cv.setEnabled(True)
+
+        self.boton_evolucion_positivos.setEnabled(False)
+
+        self.boton_evolucion_positivos_14.setEnabled(True)
+
+        self.boton_evolucion_muertes.setEnabled(True)
 
     def condicion_2(self):
         self.condicion = "Casos PCR+ 14 dies"
 
+        self.boton_totales_cv.setEnabled(True)
+
+        self.boton_evolucion_positivos.setEnabled(True)
+
+        self.boton_evolucion_positivos_14.setEnabled(False)
+
+        self.boton_evolucion_muertes.setEnabled(True)
+
     def condicion_3(self):
         self.condicion = "Defuncions"
+
+        self.boton_totales_cv.setEnabled(True)
+
+        self.boton_evolucion_positivos.setEnabled(True)
+
+        self.boton_evolucion_positivos_14.setEnabled(True)
+
+        self.boton_evolucion_muertes.setEnabled(False)
 
 
 app = QApplication(sys.argv)
